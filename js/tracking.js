@@ -155,7 +155,7 @@ function ExtractData(entries)
 
 function FindPeople(extracted)
 {
-  // Very slow, extracting names, filtering for unique,
+  // Very, very slow, extracting names, filtering for unique,
   // but should never get too large because we repeat filtering.
   // Still, there are better ways, even without Set().
   var mx = extracted["maximums"];
@@ -438,15 +438,31 @@ function PopulatePage(extracted, whereOverview, whereCalendar,
 {
   var everything = {};
   if (!("status" in extracted) || (extracted["status"] < 0)) {
-    document.getElementById("stats").innerHTML = "There was a problem, with the status " + extracted["status"] + " and " + extracted["description"];
+    if (whereStats) {
+      document.getElementById("stats").innerHTML = "There was a problem, with the status " + extracted["status"] + " and " + extracted["description"];
+    }
     return;
   }
 
   var gridStuff = GetGridStuff(extracted);
-  document.getElementById(whereOverview).innerHTML = GetOverview(extracted);
-  document.getElementById(whereCalendar).innerHTML = GetCalendar(extracted, gridStuff, false, false);
-  document.getElementById(wherePeople).innerHTML = GetCalendar(extracted, gridStuff, false, true);
-  document.getElementById(whereDetails).innerHTML = GetCalendar(extracted, gridStuff, true, false);
-  document.getElementById(whereStats).innerHTML = "";
+  if (whereOverview) {
+    document.getElementById(whereOverview).innerHTML =
+      GetOverview(extracted);
+  }
+  if (whereCalendar) {
+    document.getElementById(whereCalendar).innerHTML =
+      GetCalendar(extracted, gridStuff, false, false);
+  }
+  if (wherePeople) {
+    document.getElementById(wherePeople).innerHTML =
+      GetCalendar(extracted, gridStuff, false, true);
+  }
+  if (whereDetails) {
+    document.getElementById(whereDetails).innerHTML =
+      GetCalendar(extracted, gridStuff, true, false);
+  }
+  if (whereStats) {
+    document.getElementById(whereStats).innerHTML = "";
+  }
 }
 
