@@ -155,15 +155,13 @@ function ExtractData(entries)
 
 function FindPeople(extracted)
 {
-  // Very, very slow, extracting names, filtering for unique,
-  // but should never get too large because we repeat filtering.
-  // Still, there are better ways, even without Set().
   var mx = extracted["maximums"];
   var names = [];
   for (i=0; i<extracted["projects"].length; i++) {
-    names = names.concat(names, FromPlanAndPeople(mx[extracted["projects"][i]][4])).filter(function(el,i,a) {return (i==a.indexOf(el));});
+    names = names.concat(names, FromPlanAndPeople(mx[extracted["projects"][i]][4]));
   }
-  return names.sort();
+  var ns = new Set(names);
+  return [...ns].sort();
 }
 
 function GetOverview(extracted)
@@ -283,7 +281,8 @@ function SingleCalendar(gridNames, grid, extracted, where, maxIndex, singleItem,
     }
 
     for (k in peopleM) {
-      peopleM[k] = peopleM[k].sort().filter(function(el,i,a) {return (i==a.indexOf(el));});
+      var ns = new Set(peopleM[k]);
+      peopleM[k] = [...ns].sort();
       if (singleItem) {
         peopleM[k] = peopleM[k].filter(function(el,i,a) {return (el == singleItem);});
       }
