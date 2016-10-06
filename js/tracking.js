@@ -413,8 +413,16 @@ function GetCalendar(extracted, gridStuff, asSingleItems, asIndividuals)
       calendar += "<table id=\"ProjectTable\"><tr>";
 
       calendar += "<th width=\"34%\">" + p + "<span class=\"LargerNoted\"> (actual)</span></th>";
-      calendar += "<th width=\"33%\">" + p + "<span class=\"LargerNoted\"> (ideal)</th>";
-      calendar += "<th width=\"33%\">" + p + "<span class=\"LargerNoted\"> (conservative)</th></tr>";
+      calendar += "<th width=\"33%\">" + p + "<span class=\"LargerNoted\"> (ideal) ";
+      calendar += extracted["originals"][p][1];
+      calendar += " - ";
+      calendar += extracted["originals"][p][2];
+      calendar += "</span></th>";
+      calendar += "<th width=\"33%\">" + p + "<span class=\"LargerNoted\"> (conservative) ";
+      calendar += extracted["maximums"][p][1];
+      calendar += " - ";
+      calendar += extracted["maximums"][p][2];
+      calendar += "</span></th></tr>";
 
       calendar += "<td>" + SingleCalendar(gridNames, grid, extracted, "actualsDates", maxIndex, p, "") + "</td>";
       calendar += "<td>" + SingleCalendar(gridNames, grid, extracted, "originalsDates", maxIndex, p, "") + "</td>";
