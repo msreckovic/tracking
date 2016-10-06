@@ -177,6 +177,7 @@ function GetOverview(extracted)
   overview += "<th>Start Date<span class=\"Noted\"><br>(ideal/conservative)</span></th>";
   overview += "<th>Engineers<span class=\"Noted\"><br>(actual)</span></th>";
   overview += "<th>Overall<span class=\"Noted\"><br>(ideal)</span></th>";
+  overview += "<th>Span<span class=\"Noted\"><br>(ideal/conservative)</span></th>";
   overview += "</tr></thead>";
   overview += "<tbody>";
 
@@ -215,6 +216,17 @@ function GetOverview(extracted)
     overview +="</td>";
     overview += "<td data-label=\"Engineers\">" + OrSpace(actuals[4]) + "</td>";
     overview += "<td data-label=\"Overall\">" + OrSpace(originals[4]) + "</td>";
+    overview += "<td data-label=\"Span\">";
+    var ss = originals[1];
+    overview += ss.substring(0,3) + ss.substring(ss.search(",")+1,14) + " - ";
+    ss = originals[2];
+    overview += ss.substring(0,3) + ss.substring(ss.search(",")+1,14);
+    overview += " / ";
+    ss = maximums[1];
+    overview += ss.substring(0,3) + ss.substring(ss.search(",")+1,14) + " - ";
+    ss = maximums[2];
+    overview += ss.substring(0,3) + ss.substring(ss.search(",")+1,14);
+    overview += "</td>";
     overview += "</tr>";
     
   }
@@ -397,8 +409,8 @@ function GetCalendar(extracted, gridStuff, asSingleItems, asIndividuals)
       calendar += "<table id=\"ProjectTable\"><tr>";
 
       calendar += "<th width=\"34%\">" + p + "<span class=\"LargerNoted\"> (actual)</span></th>";
-      calendar += "<th width=\"33%\">" + p + "<span class=\"LargerNoted\"> (ideal)</th>";
-      calendar += "<th width=\"33%\">" + p + "<span class=\"LargerNoted\"> (conservative)</th></tr>";
+      calendar += "<th width=\"33%\">" + p + "<span class=\"LargerNoted\"> (ideal)</span></th>";
+      calendar += "<th width=\"33%\">" + p + "<span class=\"LargerNoted\"> (conservative)</span></th></tr>";
 
       calendar += "<td>" + SingleCalendar(gridNames, grid, extracted, "actualsDates", maxIndex, "", p) + "</td>";
       calendar += "<td>" + SingleCalendar(gridNames, grid, extracted, "originalsDates", maxIndex, "", p) + "</td>";
@@ -414,14 +426,18 @@ function GetCalendar(extracted, gridStuff, asSingleItems, asIndividuals)
 
       calendar += "<th width=\"34%\">" + p + "<span class=\"LargerNoted\"> (actual)</span></th>";
       calendar += "<th width=\"33%\">" + p + "<span class=\"LargerNoted\"> (ideal) ";
-      calendar += extracted["originals"][p][1];
+      var ss = extracted["originals"][p][1];
+      calendar += ss.substring(0,3) + ss.substring(ss.search(",")+1,14);
       calendar += " - ";
-      calendar += extracted["originals"][p][2];
+      ss = extracted["originals"][p][2];
+      calendar += ss.substring(0,3) + ss.substring(ss.search(",")+1,14);
       calendar += "</span></th>";
       calendar += "<th width=\"33%\">" + p + "<span class=\"LargerNoted\"> (conservative) ";
-      calendar += extracted["maximums"][p][1];
+      ss = extracted["maximums"][p][1];
+      calendar += ss.substring(0,3) + ss.substring(ss.search(",")+1,14);
       calendar += " - ";
-      calendar += extracted["maximums"][p][2];
+      ss = extracted["maximums"][p][2];
+      calendar += ss.substring(0,3) + ss.substring(ss.search(",")+1,14);
       calendar += "</span></th></tr>";
 
       calendar += "<td>" + SingleCalendar(gridNames, grid, extracted, "actualsDates", maxIndex, p, "") + "</td>";
