@@ -276,7 +276,7 @@ function GetGraphs(extracted, gridStuff)
   var i;
   
   overview += "<table class=\"GraphsTable\"><thead>";
-  overview += "<th>&nbsp;</th>";
+  overview += "<th><span class=\"ActualsItem Noted\">Actual</span> <span class=\"OriginalsItem Noted\">Ideal</span> <span class=\"MaximumsItem Noted\">Conservative</span></th>";
   overview += "<th><span class=\"Noted\">Sep '16</span></th>";
   overview += "<th><span class=\"Noted\">Oct '16</span></th>";
   overview += "<th><span class=\"Noted\">Nov '16</span></th>";
