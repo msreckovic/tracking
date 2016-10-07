@@ -1,5 +1,6 @@
 body {
-  font-size: 12px;
+    font-size: 12px;
+    font-family: 'Fira Sans', verdana;
 }
 
 .Noted {
@@ -10,22 +11,17 @@ body {
   font-size: 8px;
 }
 
-#ProjectTable {
-  width: 100%;
-}
-
-#CalendarTable {
-  width: 100%;
-}
-
 h1 {
   color: #0000ff;
 }
 
+.RegularTable {
+  width: 100%;
+}
+
 table {
+  width: 100%;
   border: 1px solid #ccc;
-  margin:0;
-  padding:0;
   border-collapse: collapse;
   border-spacing: 0;
 }
@@ -35,19 +31,19 @@ table tr {
   padding: 5px;
 }
 
-table th, table td {
+table th {
   padding: 10px;
   vertical-align: top;
   text-align: left;
-}
-
-table th {
   text-transform: uppercase;
   font-size: 16px;
   letter-spacing: 1px;
 }
 
 table td {
+  padding: 10px;
+  vertical-align: top;
+  text-align: left;
   font-size: 12px;
 }
 
@@ -67,4 +63,68 @@ table td {
 
 .CalendarItems {
   font-size: 10px;
+}
+
+.ActualsItem {
+  margin:0;
+  padding:0;
+  background-color: cornflowerblue;
+  color: white;
+  line-height: 8px;
+}
+.OriginalsItem {
+  margin:0;
+  padding:0;
+  background-color: green;
+  color: white;
+  line-height: 8px;
+}
+.MaximumsItem {
+  margin:0;
+  padding:0;
+  background-color: maroon;
+  color: white;
+  line-height: 8px;
+}
+.NoItem {
+  margin:0;
+  padding:0;
+  color: white;
+  line-height: 8px;
+}
+
+.GraphsTable {
+  width: 100%;
+}
+
+.GraphsTable table {
+  width: 100%;
+  border: 0;
+  margin:0;
+  padding:0;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.GraphsTable tr {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px;
+}
+
+.GraphsTable td {
+  margin: 0px;
+  padding: 0px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.ItemsTable {
+  width: 100%;
+  margin:0px;
+  padding:0px;
+}
+
+.ItemsTable tr {
+  border: 0px;
 }
