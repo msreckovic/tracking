@@ -66,29 +66,21 @@ table td {
 }
 
 .ActualsItem {
-  margin:0;
-  padding:0;
   background-color: cornflowerblue;
   color: white;
   line-height: 8px;
 }
 .OriginalsItem {
-  margin:0;
-  padding:0;
   background-color: green;
   color: white;
   line-height: 8px;
 }
 .MaximumsItem {
-  margin:0;
-  padding:0;
   background-color: maroon;
   color: white;
   line-height: 8px;
 }
 .NoItem {
-  margin:0;
-  padding:0;
   color: white;
   line-height: 8px;
 }
