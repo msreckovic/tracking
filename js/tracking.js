@@ -169,9 +169,9 @@ function GetOverview(extracted)
   var overview = "";
   var i;
   
-  overview = "<table id=\"ProjectTable\">";
+  overview = "<table class=\"RegularTable\">";
   overview += "<thead><tr>";
-  overview += "<th>Project</th>";
+  overview += "<th>&nbsp;</th>";
   overview += "<th>Status</th>";
   overview += "<th>Effort<span class=\"Noted\"><br>(ideal/conservative)</span></th>";
   overview += "<th>Start Date<span class=\"Noted\"><br>(ideal/conservative)</span></th>";
@@ -235,9 +235,104 @@ function GetOverview(extracted)
   return overview;
 }
 
+function SingleOne(value, what)
+{
+  var total = "";
+  if (value > 0) {
+    if (value > 4) {
+      value = 4;
+    }
+    total += "<td colspan=\"" + value + "\" class=\"" + what + "\">&nbsp;</td>";
+  }
+  if (value < 4) {
+    total += "<td colspan=\"" + (4-value) + "\" class=\"NoItem\">&nbsp;</td>";
+  }
+  return total;
+}
+
+function SingleFixed(value, what)
+{
+  return (SingleOne((value > 0 ? 4 : 0), what));
+}
+
+function ThisMonth(actuals, originals, maximums)
+{
+  var i;
+  var total = "<table class=\"ItemsTable\">";
+  total += "<tr>" + SingleOne(actuals, "ActualsItem") + "</tr>";
+  total += "<tr>" + SingleFixed(originals, "OriginalsItem") + "</tr>";
+  total += "<tr>" + SingleFixed(maximums, "MaximumsItem") + "</tr>";
+  total += "</table>";
+  return total;
+}
+
+function GetGraphs(extracted, gridStuff)
+{
+  var grid = gridStuff[0];
+  var gridNames = gridStuff[1];
+  var maxIndex = gridStuff[2];
+
+  var overview = "";
+  var i;
+  
+  overview += "<table class=\"GraphsTable\"><thead>";
+  overview += "<th>&nbsp;</th>";
+  overview += "<th><span class=\"Noted\">Sep '16</span></th>";
+  overview += "<th><span class=\"Noted\">Oct '16</span></th>";
+  overview += "<th><span class=\"Noted\">Nov '16</span></th>";
+  overview += "<th><span class=\"Noted\">Dec '16</span></th>";
+  overview += "<th><span class=\"Noted\">Jan '17</span></th>";
+  overview += "<th><span class=\"Noted\">Feb '17</span></th>";
+  overview += "<th><span class=\"Noted\">Mar '17</span></th>";
+  overview += "<th><span class=\"Noted\">Apr '17</span></th>";
+  overview += "<th><span class=\"Noted\">May '17</span></th>";
+  overview += "<th><span class=\"Noted\">Jun '17</span></th>";
+  overview += "<th><span class=\"Noted\">Jul '17</span></th>";
+  overview += "<th><span class=\"Noted\">Aug '17</span></th>";
+  overview += "<th><span class=\"Noted\">Sep '17</span></th>";
+  overview += "<th><span class=\"Noted\">Oct '17</span></th>";
+  overview += "<th><span class=\"Noted\">Nov '17</span></th>";
+  overview += "<th><span class=\"Noted\">Dec '17</span></th>";
+  overview += "<th><span class=\"Noted\">Jan '18</span></th>";
+  overview += "<th><span class=\"Noted\">Feb '18</span></th>";
+  overview += "<th><span class=\"Noted\">Mar '18</span></th>";
+  overview += "</tr></thead>";
+  overview += "<tbody>";
+
+  var actualsDates = extracted["actualsDates"];
+  var originalsDates = extracted["originalsDates"];
+  var maximumsDates = extracted["maximumsDates"];
+
+  for (proj=0; proj<extracted["projects"].length; proj++) {
+    var p = extracted["projects"][proj];
+    
+    overview += "<tr>";
+    overview += "<th data-label=\"Project\" class=\"Projects\">" + p + "</th>";
+
+    for (i=2; i<grid.length; i++) {
+      if (i >= maxIndex) break;
+
+      var ac = 0;
+      var oc = 0;
+      var mc = 0;
+      for (j=0; j<grid[i].length; j++) {
+        var ad = grid[i][j];
+        if (actualsDates[ad][1].search(p) >= 0) ac ++;
+        if (originalsDates[ad][1].search(p) >= 0) oc ++;
+        if (maximumsDates[ad][1].search(p) >= 0) mc ++;
+      }
+      overview += "<td>" + ThisMonth(ac,oc,mc) + "</td>";
+    }
+    overview += "</tr>";
+  }
+  overview += "</tbody></table>";
+
+  return overview;
+}
+
 function SingleCalendar(gridNames, grid, extracted, where, maxIndex, singleItem, singlePerson)
 {
-  var calendar = "<table id=\"CalendarTable\">";
+  var calendar = "<table class=\"RegularTable\">";
   for (i=0; i<grid.length; i++) {
     if (i % 3 == 0) {
       if (i > 0) {
@@ -310,7 +405,7 @@ function SingleCalendar(gridNames, grid, extracted, where, maxIndex, singleItem,
     }
 
  
-    calendar += "<td>" + "<span class=\"CalendarQ\">" + gridNames[i];
+    calendar += "<td width=\"33%\">" + "<span class=\"CalendarQ\">" + gridNames[i];
     if (effort) {
       calendar += " (" + effort + "w)";
     }
@@ -406,7 +501,7 @@ function GetCalendar(extracted, gridStuff, asSingleItems, asIndividuals)
     var people = FindPeople(extracted);
     for (i=0; i<people.length; i++) {
       var p = people[i];
-      calendar += "<table id=\"ProjectTable\"><tr>";
+      calendar += "<table class=\"RegularTable\"><tr>";
 
       calendar += "<th width=\"34%\">" + p + "<span class=\"LargerNoted\"> (actual)</span></th>";
       calendar += "<th width=\"33%\">" + p + "<span class=\"LargerNoted\"> (ideal)</span></th>";
@@ -422,7 +517,7 @@ function GetCalendar(extracted, gridStuff, asSingleItems, asIndividuals)
     // This is really the slowest way to do this...
     for (i=0; i<extracted["projects"].length; i++) {
       var p = extracted["projects"][i];
-      calendar += "<table id=\"ProjectTable\"><tr>";
+      calendar += "<table class=\"RegularTable\"><tr>";
 
       calendar += "<th width=\"34%\">" + p + "<span class=\"LargerNoted\"> (actual)</span></th>";
       calendar += "<th width=\"33%\">" + p + "<span class=\"LargerNoted\"> (ideal) ";
@@ -446,7 +541,7 @@ function GetCalendar(extracted, gridStuff, asSingleItems, asIndividuals)
       calendar += "</tr></table>";
     }
   } else {
-    calendar += "<table id=\"ProjectTable\">";
+    calendar += "<table class=\"RegularTable\">";
     calendar += "<tr><th width=\"34%\">Actual</th><th width=\"33%\">Ideal</th><th width=\"33%\">Conservative</th></tr>";
     calendar += "<td>" + SingleCalendar(gridNames, grid, extracted, "actualsDates", maxIndex, "", "") + "</td>";
     calendar += "<td>" + SingleCalendar(gridNames, grid, extracted, "originalsDates", maxIndex, "", "") + "</td>";
@@ -457,7 +552,8 @@ function GetCalendar(extracted, gridStuff, asSingleItems, asIndividuals)
 }
 
 function PopulatePage(extracted, whereOverview, whereCalendar,
-                      wherePeople, whereDetails, whereStats)
+                      wherePeople, whereDetails, whereGraphs,
+                      whereStats)
 {
   var everything = {};
   if (!("status" in extracted) || (extracted["status"] < 0)) {
@@ -483,6 +579,10 @@ function PopulatePage(extracted, whereOverview, whereCalendar,
   if (whereDetails) {
     document.getElementById(whereDetails).innerHTML =
       GetCalendar(extracted, gridStuff, true, false);
+  }
+  if (whereGraphs) {
+    document.getElementById(whereGraphs).innerHTML =
+      GetGraphs(extracted, gridStuff);
   }
   if (whereStats) {
     document.getElementById(whereStats).innerHTML = "";
