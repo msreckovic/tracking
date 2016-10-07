@@ -563,29 +563,31 @@ function PopulatePage(extracted, whereOverview, whereCalendar,
     return;
   }
 
+  var el;
   var gridStuff = GetGridStuff(extracted);
   if (whereOverview) {
-    document.getElementById(whereOverview).innerHTML =
-      GetOverview(extracted);
+    el = document.getElementById(whereOverview);
+    if (el) el.innerHTML = GetOverview(extracted);
   }
   if (whereCalendar) {
-    document.getElementById(whereCalendar).innerHTML =
-      GetCalendar(extracted, gridStuff, false, false);
+      el = document.getElementById(whereCalendar);
+      if (el) el.innerHTML = GetCalendar(extracted, gridStuff, false, false);
   }
   if (wherePeople) {
-    document.getElementById(wherePeople).innerHTML =
-      GetCalendar(extracted, gridStuff, false, true);
+      el = document.getElementById(wherePeople);
+      if (el) el.innerHTML = GetCalendar(extracted, gridStuff, false, true);
   }
   if (whereDetails) {
-    document.getElementById(whereDetails).innerHTML =
-      GetCalendar(extracted, gridStuff, true, false);
+      el = document.getElementById(whereDetails);
+      if (el) el.innerHTML = GetCalendar(extracted, gridStuff, true, false);
   }
   if (whereGraphs) {
-    document.getElementById(whereGraphs).innerHTML =
-      GetGraphs(extracted, gridStuff);
+      el = document.getElementById(whereGraphs);
+      if (el) el.innerHTML = GetGraphs(extracted, gridStuff);
   }
   if (whereStats) {
-    document.getElementById(whereStats).innerHTML = "";
+      el = document.getElementById(whereStats);
+      if (el) el.innerHTML = "";
   }
 }
 
