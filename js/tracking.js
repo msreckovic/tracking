@@ -34,7 +34,9 @@ function PersonAndItem(name)
 function FromPlanAndPeople(name)
 {
   var where = name.search("\\): ");
-  if (where < 0) return [name];
+  if (where < 0) {
+    return [name];
+  }
   where += 3;
   return AsArray(name.substr(where, name.length-where));
 }
@@ -156,12 +158,26 @@ function ExtractData(entries)
 function FindPeople(extracted)
 {
   var mx = extracted["maximums"];
-  var names = [];
+  var ma = extracted["actuals"];    
+  var names = new Set();
+  var one;
   for (i=0; i<extracted["projects"].length; i++) {
-    names = names.concat(names, FromPlanAndPeople(mx[extracted["projects"][i]][4]));
+    var onex = mx[extracted["projects"][i]][4];
+    var onea = ma[extracted["projects"][i]][4];
+    if (onex && onea) {
+      var nsx = new Set(FromPlanAndPeople(onex));
+      var nsa = new Set(FromPlanAndPeople(onea));
+      names = new Set(function*() { yield* names; yield* nsx; yield* nsa;}());
+    } else if (onex) {
+      var ns = new Set(FromPlanAndPeople(onex));
+      names = new Set(function*() { yield* names; yield* ns; }());
+    } else if (onea) {
+      var ns = new Set(FromPlanAndPeople(onea));
+      names = new Set(function*() { yield* names; yield* ns; }());
+    }
   }
-  var ns = new Set(names);
-  return [...ns].sort();
+
+  return [...names].sort();
 }
 
 function GetOverview(extracted)
