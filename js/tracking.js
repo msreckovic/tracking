@@ -34,7 +34,7 @@ function PersonAndItem(name)
 function FromPlanAndPeople(name)
 {
   var where = name.search("\\): ");
-  if (where < 0) return [what];
+  if (where < 0) return [name];
   where += 3;
   return AsArray(name.substr(where, name.length-where));
 }
